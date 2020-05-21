@@ -19,6 +19,7 @@ parser.add_argument('--network', type=str, choices=['mlp', 'resnet',
                                                     'rknet', 'odenet'], default='odenet')
 parser.add_argument('--tol', type=float, default=1e-3)
 parser.add_argument('--adjoint', type=eval, default=False, choices=[True, False])
+parser.add_argument('--solver', type=str, choices=['dopri5, rk4, euler'], default='dopri5')
 parser.add_argument('--nepochs', type=int, default=30)
 parser.add_argument('--lr', type=float, default=0.01)
 parser.add_argument('--batch_size', type=int, default=128)
@@ -37,7 +38,7 @@ def update_obj(dst, src):
 update_obj(config, args)
 
 
-if args.network == 'odenet':
+if args.network in ['odenet', 'rknet']:
     import odenet
     odenet.args = args
 
@@ -166,7 +167,7 @@ if __name__ == '__main__':
     model = {
         'mlp': MLP1L,
         'resnet': ResNet,
-        'rknet': None,
+        'rknet': odenet.get_odenet if args.network == 'rknet' else None,
         'odenet': odenet.get_odenet if args.network == 'odenet' else None,
     }[args.network]()
 
