@@ -27,6 +27,7 @@ parser.add_argument('--test_batch_size', type=int, default=1000)
 
 parser.add_argument('--save', type=str, default='./experiment1')
 parser.add_argument('--gpu', type=int, default=0)
+parser.add_argument('--test', type=eval, default=False, choices=[True, False])
 args = parser.parse_args()
 
 
@@ -151,6 +152,31 @@ def get_logger(logpath, filepath, package_files=[], displaying=True, saving=True
 
 
 if __name__ == '__main__':
+    device = torch.device('cuda:' + str(args.gpu) if torch.cuda.is_available() else 'cpu')
+    model = {
+        'mlp': MLP1L,
+        'resnet': ResNet,
+        'rknet': odenet.get_odenet if args.network == 'rknet' else None,
+        'odenet': odenet.get_odenet if args.network == 'odenet' else None,
+    }[args.network]()
+
+    train_loader, test_loader, train_eval_loader = get_mnist_loaders(
+        args.batch_size, args.test_batch_size
+    )
+
+    if args.test:
+        with torch.no_grad():
+            if args.network == 'odenet':
+                state_dict = torch.load('odenet-adj/model.pth')['state_dict']
+            else:
+                state_dict = torch.load(args.network + '/model.pth')['state_dict']
+
+            model.load_state_dict(state_dict)
+            model.eval()
+
+            print(accuracy(model, test_loader))
+            exit()
+
     makedirs(args.save)
     logger = get_logger(logpath=os.path.join(args.save, 'logs'),
                         filepath=os.path.abspath(__file__))
@@ -160,25 +186,14 @@ if __name__ == '__main__':
         'val_acc': []
     }
 
-    device = torch.device('cuda:' + str(args.gpu) if torch.cuda.is_available() else 'cpu')
 
     is_odenet = args.network == 'odenet'
 
-    model = {
-        'mlp': MLP1L,
-        'resnet': ResNet,
-        'rknet': odenet.get_odenet if args.network == 'rknet' else None,
-        'odenet': odenet.get_odenet if args.network == 'odenet' else None,
-    }[args.network]()
 
     logger.info(model)
     logger.info('Number of parameters: {}'.format(count_parameters(model)))
 
     criterion = nn.CrossEntropyLoss().to(device)
-
-    train_loader, test_loader, train_eval_loader = get_mnist_loaders(
-        args.batch_size, args.test_batch_size
-    )
 
     data_gen = inf_generator(train_loader)
     batches_per_epoch = len(train_loader)
