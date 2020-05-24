@@ -1,0 +1,65 @@
+Namespace(adjoint=True, batch_size=128, gpu=0, lr=0.01, nepochs=30, network='odenet', save='./odenet-adj', test_batch_size=1000, tol=0.001)
+ODENet(
+  (downsampling_layers): Sequential(
+    (0): Conv2d(1, 64, kernel_size=(3, 3), stride=(1, 1))
+    (1): GroupNorm(32, 64, eps=1e-05, affine=True)
+    (2): ReLU(inplace=True)
+    (3): Conv2d(64, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+    (4): GroupNorm(32, 64, eps=1e-05, affine=True)
+    (5): ReLU(inplace=True)
+    (6): Conv2d(64, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1))
+  )
+  (feature_layers): Sequential(ck(
+      (odefunc): ODEfunc(
+        (norm1): GroupNorm(32, 64, eps=1e-05, affine=True)
+        (relu): ReLU(inplace=True)
+        (conv1): ConcatConv2d(
+          (_layer): Conv2d(65, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        )
+        (norm2): GroupNorm(32, 64, eps=1e-05, affine=True)
+        (conv2): ConcatConv2d(
+          (_layer): Conv2d(65, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        )
+        (norm3): GroupNorm(32, 64, eps=1e-05, affine=True)
+      )
+    )
+  )
+  (fc_layers): Sequential(
+    (0): GroupNorm(32, 64, eps=1e-05, affine=True)
+    (1): ReLU(inplace=True)
+    (2): AdaptiveAvgPool2d(output_size=(1, 1))
+    (3): Flatten()
+    (4): Linear(in_features=64, out_features=10, bias=True)
+  )
+)
+Number of parameters: 208266
+Epoch 0000 | Time 6.382 (6.382) | NFE-F 32.0 | NFE-B 39.0 | Train Acc 0.0986 | Test Acc 0.0958
+Epoch 0001 | Time 4.321 (4.222) | NFE-F 26.3 | NFE-B 27.2 | Train Acc 0.9753 | Test Acc 0.9753
+Epoch 0002 | Time 4.367 (4.180) | NFE-F 26.2 | NFE-B 27.0 | Train Acc 0.9858 | Test Acc 0.9841
+Epoch 0003 | Time 4.701 (4.201) | NFE-F 26.2 | NFE-B 27.0 | Train Acc 0.9886 | Test Acc 0.9875
+Epoch 0004 | Time 4.363 (4.215) | NFE-F 26.2 | NFE-B 27.0 | Train Acc 0.9890 | Test Acc 0.9862
+Epoch 0005 | Time 4.311 (4.259) | NFE-F 26.2 | NFE-B 27.7 | Train Acc 0.9912 | Test Acc 0.9887
+Epoch 0006 | Time 4.319 (4.217) | NFE-F 26.2 | NFE-B 27.2 | Train Acc 0.9916 | Test Acc 0.9888
+Epoch 0007 | Time 4.349 (4.257) | NFE-F 26.2 | NFE-B 27.6 | Train Acc 0.9905 | Test Acc 0.9868
+Epoch 0008 | Time 4.316 (4.254) | NFE-F 26.2 | NFE-B 27.3 | Train Acc 0.9933 | Test Acc 0.9906
+Epoch 0009 | Time 4.366 (4.242) | NFE-F 26.2 | NFE-B 27.4 | Train Acc 0.9961 | Test Acc 0.9917
+Epoch 0010 | Time 4.349 (4.289) | NFE-F 26.2 | NFE-B 27.6 | Train Acc 0.9968 | Test Acc 0.9917
+Epoch 0011 | Time 4.339 (4.571) | NFE-F 26.2 | NFE-B 30.4 | Train Acc 0.9979 | Test Acc 0.9928
+Epoch 0012 | Time 4.322 (4.310) | NFE-F 26.2 | NFE-B 28.0 | Train Acc 0.9987 | Test Acc 0.9933
+Epoch 0013 | Time 4.340 (4.490) | NFE-F 26.2 | NFE-B 29.6 | Train Acc 0.9974 | Test Acc 0.9920
+Epoch 0014 | Time 6.273 (4.889) | NFE-F 26.2 | NFE-B 33.1 | Train Acc 0.9991 | Test Acc 0.9920
+Epoch 0015 | Time 6.243 (5.004) | NFE-F 26.2 | NFE-B 34.3 | Train Acc 0.9980 | Test Acc 0.9920
+Epoch 0016 | Time 4.336 (4.703) | NFE-F 26.2 | NFE-B 31.4 | Train Acc 0.9995 | Test Acc 0.9943
+Epoch 0017 | Time 4.355 (4.641) | NFE-F 26.2 | NFE-B 31.0 | Train Acc 0.9985 | Test Acc 0.9921
+Epoch 0018 | Time 5.744 (4.609) | NFE-F 26.2 | NFE-B 30.5 | Train Acc 0.9995 | Test Acc 0.9930
+Epoch 0019 | Time 5.927 (5.095) | NFE-F 26.2 | NFE-B 35.0 | Train Acc 0.9988 | Test Acc 0.9924
+Epoch 0020 | Time 4.624 (4.997) | NFE-F 26.2 | NFE-B 34.1 | Train Acc 0.9996 | Test Acc 0.9928
+Epoch 0021 | Time 4.766 (5.044) | NFE-F 26.2 | NFE-B 34.6 | Train Acc 0.9994 | Test Acc 0.9931
+Epoch 0022 | Time 5.665 (5.017) | NFE-F 26.2 | NFE-B 34.3 | Train Acc 0.9997 | Test Acc 0.9940
+Epoch 0023 | Time 4.333 (4.744) | NFE-F 26.2 | NFE-B 31.8 | Train Acc 0.9984 | Test Acc 0.9913
+Epoch 0024 | Time 4.418 (4.807) | NFE-F 26.2 | NFE-B 32.3 | Train Acc 0.9997 | Test Acc 0.9938
+Epoch 0025 | Time 4.310 (5.115) | NFE-F 26.2 | NFE-B 35.2 | Train Acc 0.9997 | Test Acc 0.9934
+Epoch 0026 | Time 4.343 (4.809) | NFE-F 26.2 | NFE-B 32.5 | Train Acc 0.9990 | Test Acc 0.9934
+Epoch 0027 | Time 5.782 (4.983) | NFE-F 26.2 | NFE-B 34.0 | Train Acc 0.9986 | Test Acc 0.9924
+Epoch 0028 | Time 5.672 (5.365) | NFE-F 26.2 | NFE-B 37.3 | Train Acc 0.9994 | Test Acc 0.9925
+Epoch 0029 | Time 5.658 (5.026) | NFE-F 26.2 | NFE-B 34.4 | Train Acc 0.9996 | Test Acc 0.9937
