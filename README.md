@@ -11,10 +11,13 @@ library provided by authors of the paper.
 
 Model architectures and process of training are saved in
 log files in [logs](/logs) directory. Models were given 30 epochs on training.
+Batch size is 128, learning rate - 0.01. 
 
 ### Performance
 
-| |Test error|Parameters|
+The observed performance is similar to the one presented by authors of the paper.
+
+| |Test error | Parameters |
 | --- | :---: | :---: |
 | 1-layer MLP | 4.59% | 0.20 M
 | ResNet | 0.40% | 0.58 M
@@ -22,6 +25,8 @@ log files in [logs](/logs) directory. Models were given 30 epochs on training.
 | ODENet | 0.57% | 0.21 M
 
 ### Training time comparison
+
+All models were training on a CPU.
 
 | | |
 :---:|:---:
